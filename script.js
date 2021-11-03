@@ -10,8 +10,6 @@ let domandaIniziale = prompt("scegli la difficltà tra 1, 2 o 3");
 
 let levels = 100; //di default, in base a quante volte divido il contenitore
 
-
-
 //selezione livelli
 if (domandaIniziale == 1) {
     levels = 100;
@@ -35,39 +33,47 @@ while(bombs.length < 16){
 
  //genero numeri casuali da 1 a 100 * 16 volte e li metti in numArr
 
-const numArr=[]; 
+const bombe=[]; 
 for(var i=0;i<16;i++){
     var randomNumber = Math.floor(Math.random()*levels)+1;// il n random lo genero in base al numero di quadrati massimi del livello
     var nuovo = true;
     for(var j=0; j<i; j++){
-        if(numArr[j]==randomNumber)nuovo=false;
+        if(bombe[j]==randomNumber)nuovo=false;
         }
         if(nuovo){
-            numArr[i]=randomNumber;
+            bombe[i]=randomNumber;
         }else{
         i--;
     }
-} console.log(numArr);  
+} console.log(bombe);  
  
-
 
 const contenitore = document.getElementById("cont");
 
-for (let i = 0; i < levels; i++) {
+for (let i = 1; i <= levels; i++) {
 
     let newElement = newSquare ("div", "square");
+    newElement.id = i;
     newElement.addEventListener("click",
 
     function(){ 
         newElement.classList.add("clickOnce");
         // numeri all'interno dei quadrati
-        newElement.append(i+1);
-
+        newElement.innerText=i;
+        let id = parseInt(newElement.id);
+        if(bombe.includes(id)) {
+            alert('hai perso')
+            newElement.classList.add("bomb");
+            
+        } 
+        
     });
     
     contenitore.appendChild(newElement);
-    console.log(contenitore);
+    console.log(contenitore); 
 }
+
+/* Al termine della partita il software deve scoprire tutte le bombe e comunicare il punteggio, cioè il numero di volte che l’utente ha cliccato un quadratino con un numero consentito. (quindi se ci pensate dovrete tenere traccia del punteggio). */
 
 
 function newSquare (elemento, quadratoNuovo) {
@@ -75,3 +81,13 @@ function newSquare (elemento, quadratoNuovo) {
     node.classList.add(quadratoNuovo);
     return node
 }  
+
+/* if (document.addEventListener) {
+  document.addEventListener("click", myFunction);
+} else if (document.attachEvent) {
+  document.attachEvent("onclick", myFunction);
+}
+
+function myFunction() {
+  alert("Hello World!");
+} */
